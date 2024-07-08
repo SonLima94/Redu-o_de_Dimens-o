@@ -1,0 +1,45 @@
+from PIL import Image
+import numpy as np
+
+def convert_to_grayscale(image_path, output_path):
+    # Abrir a imagem
+    img = Image.open(image_path)
+    
+    # Converter para escala de cinza
+    gray_img = img.convert('L')
+    
+    # Salvar a imagem convertida
+    gray_img.save(output_path)
+    print(f'Imagem convertida para escala de cinza salva em: {output_path}')
+    
+    return gray_img
+
+def binarize_image(image_path, output_path, threshold=128):
+    # Abrir a imagem em escala de cinza
+    img = Image.open(image_path).convert('L')
+    
+    # Converter a imagem para um array numpy
+    img_array = np.array(img)
+    
+    # Aplicar a binarização
+    binarized_array = np.where(img_array > threshold, 255, 0)
+    
+    # Converter o array binarizado de volta para uma imagem
+    binarized_img = Image.fromarray(np.uint8(binarized_array))
+    
+    # Salvar a imagem binarizada
+    binarized_img.save(output_path)
+    print(f'Imagem binarizada salva em: {output_path}')
+    
+    return binarized_img
+
+# Exemplo de uso
+image_path = 'path/to/your/color_image.jpg'  # Caminho para a imagem colorida de entrada
+gray_image_path = 'grayscale_image.jpg'      # Caminho para salvar a imagem em escala de cinza
+binarized_image_path = 'binarized_image.jpg' # Caminho para salvar a imagem binarizada
+
+# Converter para escala de cinza
+gray_image = convert_to_grayscale(image_path, gray_image_path)
+
+# Binarizar a imagem
+binarized_image = binarize_image(gray_image_path, binarized_image_path)
